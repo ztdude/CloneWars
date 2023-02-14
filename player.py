@@ -13,4 +13,9 @@ class Player(pygame.sprite.Sprite):
     self.speed = 10
     
   def input(self):
-    keys = pygame.
+    keys = pygame.key.get_pressed()
+    
+    if keys[pygame.K_right]:
+      self.direction.x = 1
+    elif keys[pygame.K_left]:
+      self.direction.x = -1
