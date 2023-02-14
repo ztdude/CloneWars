@@ -21,3 +21,11 @@ class Player(pygame.sprite.Sprite):
       self.direction.x = -1
     else:
       self.direction = 0
+
+    if keys[pygame.K_SPACE]:
+      print('jump')
+      
+  def update(self):
+    self.rect.topleft += self.direction * self.speed
+    
+    
