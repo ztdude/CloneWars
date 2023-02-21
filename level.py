@@ -9,7 +9,7 @@ class Level:
         self.display_surface = pygame.display.get_surface()
 
 
-        self.visible_sprites = CameraGroup()
+        self.visible_sprites = pygame.sprite.Group()
         self.active_sprites = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
 
@@ -23,18 +23,19 @@ class Level:
             for col_index,col in enumerate(row): 
                 x = col_index * TILE_SIZE 
                 y = row_index * TILE_SIZE
-                if col == 'X': 
-                    Tile((x,y),[self.visible_sprites,self.collision_sprites])
+                if col =='X': 
+                    Tile((x,y),[self.visible_sprites, self.collision_sprites])
                 if col == 'P': 
-                    self.player = Player((x,y),[self.visible_sprites,self.active_sprites], self.collision_sprites)
+                    Player((x,y),[self.visible_sprites,self.active_sprites], self.collision_sprites)
 
 
 
 
  
     def run(self): 
-        self.visible_sprites.custom_draw(self.player)
         self.active_sprites.update()
+        self.visible_sprites.draw(self.display_surface)
+     
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
