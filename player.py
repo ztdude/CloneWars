@@ -2,17 +2,18 @@ import pygame
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-  def __init__(self,pos,groups):
+  def __init__(self,pos,groups,collision_sprites):
     super().__init__(groups)
-    self.image = pygame.Surface((TILE.SIZE // 2,TILE_SIZE))
+    self.image = pygame.Surface((TILE_SIZE // 2,TILE_SIZE))
     self.image.fill(PLAYER_COLOR)
     self.rect = self.image.get_rect(topleft = pos)
   
   #Movement
     self.direction = pygame.math.Vector2()
-    self.speed = 10
+    self.speed = 8
     self.gravity = .9
-    self.jump_speed = 18
+    self.jump_speed = 2
+    self.collision_sprites = collision_sprites
     
   def input(self):
     keys = pygame.key.get_pressed()
@@ -27,11 +28,34 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_SPACE]:
       self.direction.y = -self.jump_speed
       
+      
+  def vertical_collisions(self):
+     for sprite in self.collision_sprites.sprites():
+      if sprite.rect.colliderect(self.rect):
+        if self.direction.y > 0:
+          self.rect.bottom = sprite.rect.top
+          self.direction.y = 0
+        if self.direction.y < 0: 
+          self.rect.top = sprite.rect.bottom
+          self.direction.y = 0
+     
+     
+  def horizontal_collisions(self):  
+     for sprite in self.collision_sprites.sprites():
+      if sprite.rect.colliderect(self.rect):
+        if self.direction.x < 0:
+          self.rect.left = sprite.rect.right
+        if self.direction.x > 0:
+          self.rect.right = sprite.rect.left 
+  
+  
   def apply_gravity(self):
     self.direction.y += self.gravity
     self.rect.y += self.direction.y
     
   def update(self):
     self.input()
-    self.rect.x += self.direction.x * self.speed
+    self.rect.topleft += self.direction * self.speed
+    self.vertical_collisions()
+    self.horizontal_collisions() 
     self.apply_gravity()
