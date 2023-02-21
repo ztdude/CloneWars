@@ -1,30 +1,68 @@
-import pygame, sys 
-from settings import *  
-from level import Level 
+import pygame
+from settings import *
 
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-pygame.display.set_caption('Clone Wars Platformer')
-clock = pygame.time.Clock()
-
-level = level()
-
-
-
-while True: 
-
-  for event in pygame.event.get():
-       if event.type == pygame.QUIT:
-         pygame.quit()
-         sys.exit()
+class Player(pygame.sprite.Sprite):
+  def __init__(self,pos,groups,collision_sprites):
+    super().__init__(groups)
+    self.image = pygame.Surface((TILE_SIZE // 2,TILE_SIZE))
+    self.image.fill(PLAYER_COLOR)
+    self.rect = self.image.get_rect(topleft = pos)
+  
+  #Movement
+    self.direction = pygame.math.Vector2()
+    self.speed = 8
+    self.gravity = .9
+    self.jump_speed = 2
+    self.collision_sprites = collision_sprites
     
+  def input(self):
+    keys = pygame.key.get_pressed()
     
-  screen.fill(BG_COLOR)
+    if keys[pygame.K_RIGHT]:
+      self.direction.x = 1
+    elif keys[pygame.K_LEFT]:
+      self.direction.x = -1
+    else:
+      self.direction.x = 0
 
-  level.run()
+    if keys[pygame.K_SPACE]:
+      self.direction.y = -self.jump_speed
+      
 
-  pygame.display.update()
-  clock.tick(60)
 
+
+  def vertical_collisions(self):
+     for sprite in self.collision_sprites.sprites():
+      if sprite.rect.colliderect(self.rect):
+        if self.direction.y > 0:
+          self.rect.bottom = sprite.rect.top
+          self.direction.y = 0
+        if self.direction.y < 0: 
+          self.rect.top = sprite.rect.bottom
+          self.direction.y = 0
+     
+     
+  def horizontal_collisions(self):  
+     for sprite in self.collision_sprites.sprites():
+      if sprite.rect.colliderect(self.rect):
+        if self.direction.x < 0:
+          self.rect.left = sprite.rect.right
+        if self.direction.x > 0:
+          self.rect.right = sprite.rect.left 
+  
+
+
+    
+
+  def apply_gravity(self):
+    self.direction.y += self.gravity
+    self.rect.y += self.direction.y
+    
+  def update(self):
+    self.input()
+    self.rect.topleft += self.direction * self.speed
+    self.vertical_collisions()
+    self.horizontal_collisions() 
+    self.apply_gravity()
 
 
