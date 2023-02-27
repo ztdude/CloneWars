@@ -68,4 +68,4 @@ class CameraGroup(pygame.sprite.Group):
 
         for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image,sprite.rect)
+            self.display_surface.blit(sprite.image,offset_pos)
