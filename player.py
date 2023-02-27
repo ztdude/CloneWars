@@ -11,12 +11,12 @@ class Player(pygame.sprite.Sprite):
   #Movement
     self.direction = pygame.math.Vector2()
     self.speed = 8
-    self.gravity = .9
-    self.jump_speed = 4
+    self.gravity = .35
+    self.jump_speed = 5
     self.collision_sprites = collision_sprites
     self.on_floor = False 
 
-    
+
   def input(self):
     keys = pygame.key.get_pressed()
     
@@ -34,6 +34,8 @@ class Player(pygame.sprite.Sprite):
 
 
   def vertical_collisions(self):
+     self.rect.y += self.direction.y * self.speed
+   
      for sprite in self.collision_sprites.sprites():
       if sprite.rect.colliderect(self.rect):
         if self.direction.y > 0:
@@ -49,16 +51,18 @@ class Player(pygame.sprite.Sprite):
      
      
   def horizontal_collisions(self):  
+     self.rect.x += self.direction.x * self.speed
+
      for sprite in self.collision_sprites.sprites():
       if sprite.rect.colliderect(self.rect):
         if self.direction.x < 0:
           self.rect.left = sprite.rect.right
+          self.direction.x = 0
         if self.direction.x > 0:
           self.rect.right = sprite.rect.left 
+          self.direction.x = 0
   
-
-
-    
+ 
 
   def apply_gravity(self):
     self.direction.y += self.gravity
@@ -66,7 +70,6 @@ class Player(pygame.sprite.Sprite):
     
   def update(self):
     self.input()
-    self.rect.topleft += self.direction * self.speed
-    self.vertical_collisions()
     self.horizontal_collisions() 
+    self.vertical_collisions()
     self.apply_gravity()
