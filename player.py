@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
   def __init__(self,pos,groups,collision_sprites):
     super().__init__(groups)
     self.image = pygame.Surface((TILE_SIZE // 2,TILE_SIZE))
-    self.image = pygame.image.load('Clone Trooper2.png')
+    self.image = pygame.image.load("asssets/Clone Trooper2.png")
     self.rect = self.image.get_rect(topleft = pos)
 
   #Movement
