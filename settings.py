@@ -1,18 +1,21 @@
 LEVEL_MAP = [
     '                                    ',
-    '                                    ',
-    '                                    ',
-    '         XXXXX              XXX   XX',
-    '                         XXXX       ',
-    '                       X            ',
-    '          XXXXXXXXXXXXXXXXXX        ',
-    'P    XXXXXXXXXXXXXXXXXXXXX          ',
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXX         ']
+    ' V                                                       XXXX ',
+    ' V                                                XXXXX         XXXXX',
+    ' V                           XXXXXX',
+    ' V                      XXXX          XXXXXXX ',
+    ' V  T                X                                                                  ',
+    ' V P         XXXXXXXXXXXXXXXXXX        ',
+    ' V        XXXXXXXXXXXXXXXXXXXXX                            ',
+    ' VXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                      ',
+    ' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV                          ',
+    ' VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV']
 
 TILE_SIZE = 64
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720 
 
+BG_COLOR = '#060C17'
 PLAYER_COLOR = '#042B12'
 TILE_COLOR = '#94D7F2'
 
