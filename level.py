@@ -18,18 +18,23 @@ class Level:
 
     def setup_level(self): 
         for row_index,row in enumerate(LEVEL_MAP): 
-            print(f'{row_index}:{row} -> {row_index * TILE_SIZE}')
+            #print(f'{row_index}:{row} -> {row_index * TILE_SIZE}')
             for col_index,col in enumerate(row):
                 x = col_index * TILE_SIZE 
                 y = row_index * TILE_SIZE
                 if col =='X': 
                     Tile((x,y),[self.visible_sprites, self.collision_sprites])
+                if col =='V': 
+                    Tile((x,y),[self.collision_sprites])
+                if col =='T': 
+                    print('If you are glithed stop touching keys to reset')
                 if col == 'P': 
                     self.player = Player((x,y),[self.visible_sprites,self.active_sprites], self.collision_sprites)
 
     def run(self):
         self.active_sprites.update()
         self.visible_sprites.custom_draw(self.player)
+        
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -62,6 +67,7 @@ class CameraGroup(pygame.sprite.Group):
             self.camera_rect.top = player.rect.top
         if player.rect.bottom > self.camera_rect.bottom:
             self.camera_rect.bottom = player.rect.bottom
+                
 
         #Camera Offset
         self.offset = pygame.math.Vector2(self.camera_rect.left - CAMERA_BORDERS['left'], self.camera_rect.top - CAMERA_BORDERS['top'])
