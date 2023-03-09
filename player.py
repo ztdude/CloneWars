@@ -7,9 +7,9 @@ class Player(pygame.sprite.Sprite):
   def __init__(self,pos,groups,collision_sprites):
     super().__init__(groups)
     self.image = pygame.Surface((TILE_SIZE // 2,TILE_SIZE))
-    self.image = pygame.image.load("asssets/Clone Trooper2.png")
+    self.image.fill(PLAYER_COLOR)
     self.rect = self.image.get_rect(topleft = pos)
-
+  
   #Movement
     self.direction = pygame.math.Vector2()
     self.speed = 8
@@ -19,7 +19,6 @@ class Player(pygame.sprite.Sprite):
     self.on_floor = False 
     self.dead = False
 
-      
   
   def input(self):
     keys = pygame.key.get_pressed()
@@ -41,7 +40,7 @@ class Player(pygame.sprite.Sprite):
       self.direction.y = -self.jump_speed
 
 
-
+  
 
   def vertical_collisions(self):
      self.rect.y += self.direction.y * self.speed
@@ -57,8 +56,10 @@ class Player(pygame.sprite.Sprite):
           self.direction.y = 0
      if self.on_floor and self.direction.y != 0: 
       self.on_floor = False 
-     if self.rect.top > SCREEN_HEIGHT:
-      pygame.quit()
+     if self.rect.y > 1100:
+      self.rect.y = 600
+      self.rect.x = 250
+      
 
     
   def horizontal_collisions(self):  
