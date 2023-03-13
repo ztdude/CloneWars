@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
   def __init__(self,pos,groups,collision_sprites):
     super().__init__(groups)
     self.image = pygame.Surface((TILE_SIZE // 2,TILE_SIZE))
-    self.image.fill(PLAYER_COLOR)
+    self.image = pygame.image.load("asssets/Clone Trooper2.png")
     self.rect = self.image.get_rect(topleft = pos)
   
   #Movement
@@ -38,8 +38,14 @@ class Player(pygame.sprite.Sprite):
       self.direction.y = -self.jump_speed
     elif keys[pygame.K_w] and self.on_floor:
       self.direction.y = -self.jump_speed
+    elif keys[pygame.K_UP] and self.on_floor: 
+      self.direction.y = -self.jump_speed
 
-
+  def image_rotation(self):
+    if self.direction.x == 1:
+      character_flippedImage = self.image.transpose(pygame.image.FLIP_LEFT_RIGHT)
+    if self.direction.x == -1:
+      character_flippedImage = self.image.transpose(pygame.image.FLIP_RIGHT_LEFT)
   
 
   def vertical_collisions(self):
