@@ -1,6 +1,6 @@
 import pygame 
 from settings import * 
-from tile import Tile 
+from tile import Tile, SpecTile, SpecTile1
 from player import Player
 
 class Level: 
@@ -26,8 +26,10 @@ class Level:
                     Tile((x,y),[self.visible_sprites, self.collision_sprites])
                 if col =='V': 
                     Tile((x,y),[self.collision_sprites])
-                if col =='T': 
-                    print('If you are glithed stop touching keys to reset')
+                if col =='L': 
+                    SpecTile((x,y),[self.visible_sprites, self.collision_sprites])
+                if col =='O': 
+                    SpecTile1((x,y),[self.visible_sprites, self.collision_sprites])
                 if col == 'P': 
                     self.player = Player((x,y),[self.visible_sprites,self.active_sprites], self.collision_sprites)
 
