@@ -2,7 +2,6 @@ import pygame
 from settings import *
  
 
-
 class Player(pygame.sprite.Sprite):
   def __init__(self,pos,groups,collision_sprites):
     super().__init__(groups)
@@ -19,11 +18,11 @@ class Player(pygame.sprite.Sprite):
     self.on_floor = False 
     self.dead = False
 
-  
+
   def input(self):
     keys = pygame.key.get_pressed()
     
-    if keys[pygame.K_RIGHT]: 
+    if keys[pygame.K_RIGHT]:
       self.direction.x = 1
     elif keys[pygame.K_d]:
       self.direction.x = 1
@@ -33,6 +32,7 @@ class Player(pygame.sprite.Sprite):
       self.direction.x = -1
     else:
       self.direction.x = 0
+  
 
     if keys[pygame.K_SPACE] and self.on_floor:
       self.direction.y = -self.jump_speed
@@ -40,12 +40,14 @@ class Player(pygame.sprite.Sprite):
       self.direction.y = -self.jump_speed
     elif keys[pygame.K_UP] and self.on_floor: 
       self.direction.y = -self.jump_speed
+    
+
 
   def image_rotation(self):
     if self.direction.x == 1:
-      character_flippedImage = self.image.transpose(pygame.image.FLIP_LEFT_RIGHT)
+      self.image = pygame.image.load("asssets/Clone Trooper2.png")
     if self.direction.x == -1:
-      character_flippedImage = self.image.transpose(pygame.image.FLIP_RIGHT_LEFT)
+      self.image = pygame.image.load("asssets/Clone Trooper4.png")
   
 
   def vertical_collisions(self):
@@ -94,3 +96,4 @@ class Player(pygame.sprite.Sprite):
     self.horizontal_collisions() 
     self.vertical_collisions()
     self.apply_gravity()
+    self.image_rotation()
